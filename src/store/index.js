@@ -22,6 +22,9 @@ export const store = new Vuex.Store({
     },
     unsetUser(state){
       state.currentUser = null
+    },
+    unsetCurrentMeetup(state){
+      state.currentMeetup = null
     }
   },
   actions: {
@@ -45,6 +48,9 @@ export const store = new Vuex.Store({
     },
     autoSignIn({commit}, payload){
       commit('setCurrentUser', payload)
+    },
+    unsetCurrentMeetup({commit}){
+      commit('unsetCurrentMeetup')
     }
   },
   getters: {
