@@ -2,7 +2,7 @@
   v-container(fluid)
       v-layout(justify-center)
         v-flex(xs12, sm10, md9)
-          v-card
+          v-card(v-if="currentMeetup")
             v-card-title
               h4(class="ma-0") {{currentMeetup.title}}
             v-card-media(:src="currentMeetup.imageUrl", height="300px")
@@ -25,6 +25,9 @@
     },
     created(){
       this.$store.dispatch('getMeetupById', this.id)
+    },
+    destroyed(){
+      this.$store.dispatch('unsetCurrentMeetup')
     }
   }
 </script>

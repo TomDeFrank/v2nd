@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     meetups: [],
-    currentMeetup: null
+    currentMeetup: null,
+    currentUser: null
   },
   mutations: {
     setMeetups(state, payload){
@@ -15,6 +16,12 @@ export const store = new Vuex.Store({
     },
     setCurrentMeetup(state, payload){
       state.currentMeetup = payload
+    },
+    setCurrentUser(state, payload){
+      state.currentUser = payload
+    },
+    unsetUser(state){
+      state.currentUser = null
     }
   },
   actions: {
@@ -27,6 +34,17 @@ export const store = new Vuex.Store({
         meetup.id = snapshot.key
         commit('setMeetups', meetup)
       })
+    },
+    signIn({commit}, payload){
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+      .catch(err => console.log(err.message))
+    },
+    signOut({commit}){
+      firebase.auth().signOut()
+      commit('unsetUser')
+    },
+    autoSignIn({commit}, payload){
+      commit('setCurrentUser', payload)
     }
   },
   getters: {
@@ -38,6 +56,12 @@ export const store = new Vuex.Store({
     },
     featuredMeetups (state) {
       return state.meetups.slice(0,5)
+    },
+    currentUser(state){
+      return state.currentUser
+    },
+    debugState(state){
+      return state
     }
   }
 })
