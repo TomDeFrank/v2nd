@@ -66,6 +66,7 @@
         var signedOutMenu = [
           {title: "Home", icon: "home", path: "/"},
           {title: "Meetups", icon: "people", path: "/meetups"},
+          {title: "Sign Up", icon: "person", path: "/signup"},
           {title: "Sign In", icon: "person", path: "/signin"}
         ]
         if(this.currentUser){
