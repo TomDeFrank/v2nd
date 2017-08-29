@@ -8,6 +8,10 @@
               :key="i",
               style="cursor:pointer",
               @click="navToMeetup(item.id)")
+                h4(class="pa-3",style="color:#fff;background-color:rgba(0,0,0,0.6)") {{item.title}}
+          v-layout(row, justify-center, mt-3)
+            v-btn(primary to="/meetups") View Meetups
+            v-btn(primary to="/organize-meetup") Organize Meetup
 </template>
 
 <script>

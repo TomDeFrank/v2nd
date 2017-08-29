@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-app(toolbar)
+  v-app(toolbar, footer)
     v-navigation-drawer(temporary, v-model='drawer', light, overflow, absolute)
       v-list(dense)
         v-list-tile(v-for='(item,i) in currentMenu', :key='item.title', :to="item.path")
@@ -7,6 +7,12 @@
             v-icon {{ item.icon }}
           v-list-tile-content
             v-list-tile-title {{ item.title }}
+        template(v-if="currentUser")
+          v-list-tile
+            v-list-tile-action
+              v-icon exit_to_app
+            v-list-tile-content
+              v-list-tile-title Sign out
     v-toolbar(fixed, dark)
       v-toolbar-side-icon(@click.stop='drawer = !drawer')
       v-toolbar-title Dev Meetup
@@ -16,7 +22,7 @@
         v-btn(v-if="currentUser", @click="signOut", flat) Sign Out
     main
       router-view
-    // debug area
+    // debug area start ****************************************************************************************************************
     v-dialog(v-model="showModal", fullscreen, transition="dialog-bottom-transition", hide-overlay)
       v-btn(class="pink", dark, small, fixed, bottom, right, fab, style="bottom:2rem",slot="activator")
         v-icon add
@@ -27,12 +33,15 @@
           v-toolbar-title Debug
         v-card-text
           v-layout(column)
-            div currentUser: {{ debugState.currentUser == null ? 'null or undefined' : debugState.currentUser }}
-            div currentMeetup: {{ debugState.currentMeetup == null ? 'null or undefined' : debugState.currentMeetup }}
-            div Number of Meetups: {{ debugState.meetups.length }}
+            div <b>currentUser:</b> {{ debugState.currentUser === null ? 'null' : debugState.currentUser }}
+            div <b>currentMeetup:</b> {{ debugState.currentMeetup === null ? 'null' : debugState.currentMeetup }}
+            div <b>Number of Meetups:</b>  {{ debugState.meetups.length }}
             div(class="title mt-4 py-2") Meetups:
             div(v-for="m in debugState.meetups" style="border:1px solid #ccc; background:#fff; padding: 0.5rem; margin-bottom:0.5rem")
               div(v-for="(item,key) in m") <b>{{key}}:</b> {{item.length > 200 ? item.substr(0,100) + '...' : item}}
+    // debug area end *******************************************************************************************************************
+    v-footer(class="grey darken-4", bottom)
+      span(class="white--text") &copy; 2017
 </template>
 
 <script>
