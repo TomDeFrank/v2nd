@@ -41,8 +41,8 @@
         if(this.date && this.time){
           var meridiem = this.time.substr(-2)
           var thetime = this.time.slice(0, -2)
-          var l = thetime.match(/\d*[^:]/)
-          l[0].length < 2 ? thetime = "0" + thetime : false
+          var length = thetime.match(/\d*[^:]/)[0].length
+          length < 2 ? thetime = "0" + thetime : false
           if (meridiem === 'pm'){
             var h = thetime.match(/\d*[^:]/)
             var m = thetime.match(/[^:]\d/)
