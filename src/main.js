@@ -4,8 +4,10 @@ import App from './App'
 import router from './router'
 import { store } from './store'
 import * as firebase from 'firebase'
+import FormAlert from '@/components/User/FormAlert'
 
 Vue.use(Vuetify)
+Vue.component('tbd-form-alert', FormAlert)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -4,8 +4,7 @@
       v-flex(xs12, sm6, md4, lg3)
         v-card
           v-card-title(class="primary white--text mb-0 pa-3 headline") Sign Up
-          v-alert(error dismissible :value="error" @click="dismissError" class="my-0")
-            | {{error}}
+          tbd-form-alert(:error="error")
           v-card-text
             v-text-field(name="input-1",
               label="Email",
@@ -50,9 +49,10 @@
           this.$store.dispatch('setError', 'Username and password do not match')
         }
       },
-      dismissError(){
-        this.$store.dispatch('unsetError')
-      }
+      dismissError(){ this.$store.dispatch('unsetError') }
+    },
+    destroyed(){
+      this.$store.dispatch('unsetError')
     }
   }
 </script>

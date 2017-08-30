@@ -10,30 +10,18 @@ export const store = new Vuex.Store({
     meetups: [],
     currentMeetup: null,
     currentUser: null,
-    error: null
+    error: null,
+    loading: false
   },
   mutations: {
-    setMeetups(state, payload){
-      state.meetups.push(payload)
-    },
-    setCurrentMeetup(state, payload){
-      state.currentMeetup = payload
-    },
-    setCurrentUser(state, payload){
-      state.currentUser = payload
-    },
-    unsetUser(state){
-      state.currentUser = null
-    },
-    unsetCurrentMeetup(state){
-      state.currentMeetup = null
-    },
-    setError(state, payload){
-      state.error = payload
-    },
-    unsetError(state){
-      state.error = null
-    }
+    setMeetups(state, payload){ state.meetups.push(payload) },
+    setCurrentMeetup(state, payload){ state.currentMeetup = payload },
+    setCurrentUser(state, payload){ state.currentUser = payload },
+    unsetUser(state){ state.currentUser = null },
+    unsetCurrentMeetup(state){ state.currentMeetup = null },
+    setError(state, payload){ state.error = payload },
+    unsetError(state){ state.error = null },
+    setLoading(state, payload){ state.loading = payload}
   },
   actions: {
     getMeetupById({commit}, payload){
@@ -47,17 +35,21 @@ export const store = new Vuex.Store({
       })
     },
     signIn({commit}, payload){
+      commit('setLoading', true)
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(user => {
         commit('unsetError')
+        commit('setLoading', false)
         user ? router.push('/') : false
       })
       .catch(err => commit('setError', err.message))
     },
     signUp({commit}, payload){
+      commit('setLoading', true)
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(user => {
         commit('unsetError')
+        commit('setLoading', false)
         user ? router.push('/') : false
       })
       .catch(err => commit('setError', err.message))
@@ -77,6 +69,9 @@ export const store = new Vuex.Store({
     },
     unsetError({commit}){
       commit('unsetError')
+    },
+    setLoading({commit}, payload){
+      commit('setLoading', payload)
     }
   },
   getters: {
@@ -95,8 +90,8 @@ export const store = new Vuex.Store({
     error(state){
       return state.error
     },
-    debugState(state){
-      return state
+    loading(state){
+      return state.loading
     }
   }
 })

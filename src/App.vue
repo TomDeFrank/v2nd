@@ -21,26 +21,8 @@
         v-btn(v-for="item in currentMenu", key='item.title', flat, :to="item.path") {{item.title}}
         v-btn(v-if="currentUser", @click="signOut", flat) Sign Out
     main
-      router-view
-    // debug area start ****************************************************************************************************************
-    v-dialog(v-model="showModal", fullscreen, transition="dialog-bottom-transition", hide-overlay)
-      v-btn(class="pink", dark, small, fixed, bottom, right, fab, style="bottom:2rem",slot="activator")
-        v-icon add
-      v-card(style="background:#eee")
-        v-toolbar(dark class="primary")
-          v-btn(icon @click.native="showModal = false" dark)
-            v-icon close
-          v-toolbar-title Debug
-        v-card-text
-          v-layout(column)
-            div <b>currentUser:</b> {{ debugState.currentUser === null ? 'null' : debugState.currentUser }}
-            div <b>currentMeetup:</b> {{ debugState.currentMeetup === null ? 'null' : debugState.currentMeetup }}
-            div <b>Error:</b>  {{ debugState.error === null ? 'null' : debugState.error }}
-            div <b>Number of Meetups:</b>  {{ debugState.meetups.length }}
-            div(class="title mt-4 py-2") Meetups:
-            div(v-for="m in debugState.meetups" style="border:1px solid #ccc; background:#fff; padding: 0.5rem; margin-bottom:0.5rem")
-              div(v-for="(item,key) in m") <b>{{key}}:</b> {{item.length > 200 ? item.substr(0,100) + '...' : item}}
-    // debug area end *******************************************************************************************************************
+      transition(name="fade", mode="out-in")
+        router-view
     v-footer(class="grey darken-4", bottom)
       span(class="white--text") &copy; 2017
 </template>
@@ -75,9 +57,6 @@
         } else {
           return signedOutMenu
         }
-      },
-      debugState(){
-        return this.$store.getters.debugState
       }
     },
     methods: {
@@ -90,4 +69,13 @@
 
 <style lang="stylus">
   @import './stylus/main'
+  .fade-enter, .fade-leave-to{
+    opacity:0
+  }
+  .fade-enter-to{
+    opacity:1
+  }
+  .fade-enter-active, .fade-leave-active{
+    transition:0.2s opacity;
+  }
 </style>

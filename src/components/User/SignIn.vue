@@ -4,19 +4,10 @@
       v-flex(xs12, sm6, md4, lg3)
         v-card
           v-card-title(class="primary white--text mb-0 pa-3 headline") Sign In
-          v-alert(error dismissible :value="error" @click="dismissError" class="my-0")
-            | {{error}}
+          tbd-form-alert(:error="error")
           v-card-text
-            v-text-field(name="input-1",
-              label="Email",
-              id="email",
-              hide-details,
-              v-model="email")
-            v-text-field(name="input-1",
-              label="Password",
-              id="password", type="password"
-              hide-details,
-              v-model="password")
+            v-text-field(label="Email", hide-details, v-model="email", type="email")
+            v-text-field(label="Password", type="password" hide-details, v-model="password")
             v-card-actions(justify-center)
               v-spacer
               v-btn(primary, @click.prevent="signIn") Sign In
@@ -39,9 +30,6 @@
     methods: {
       signIn(){
         this.$store.dispatch('signIn', {email: this.email, password: this.password})
-      },
-      dismissError(){
-        this.$store.dispatch('unsetError')
       }
     }
   }

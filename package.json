@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "firebase": "^4.3.0",
+    "moment": "^2.18.1",
     "pug": "^2.0.0-rc.3",
     "pug-loader": "^2.3.0",
     "vue": "^2.4.2",
