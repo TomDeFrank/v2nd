@@ -3,7 +3,9 @@
     v-layout(justify-center)
       v-flex(xs12, sm6, md4, lg3)
         v-card
-          div(class="primary white--text mb-0 pa-3 headline") Sign In
+          v-card-title(class="primary white--text mb-0 pa-3 headline") Sign In
+          v-alert(error dismissible :value="error" @click="dismissError" class="my-0")
+            | {{error}}
           v-card-text
             v-text-field(name="input-1",
               label="Email",
@@ -29,10 +31,17 @@
         password: ''
       }
     },
+    computed:{
+      error(){
+        return this.$store.getters.error
+      }
+    },
     methods: {
       signIn(){
         this.$store.dispatch('signIn', {email: this.email, password: this.password})
-        this.$router.push('/')
+      },
+      dismissError(){
+        this.$store.dispatch('unsetError')
       }
     }
   }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
+import router from '../router'
 
 Vue.use(Vuex)
 
@@ -8,7 +9,8 @@ export const store = new Vuex.Store({
   state: {
     meetups: [],
     currentMeetup: null,
-    currentUser: null
+    currentUser: null,
+    error: null
   },
   mutations: {
     setMeetups(state, payload){
@@ -25,6 +27,12 @@ export const store = new Vuex.Store({
     },
     unsetCurrentMeetup(state){
       state.currentMeetup = null
+    },
+    setError(state, payload){
+      state.error = payload
+    },
+    unsetError(state){
+      state.error = null
     }
   },
   actions: {
@@ -40,7 +48,19 @@ export const store = new Vuex.Store({
     },
     signIn({commit}, payload){
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-      .catch(err => console.log(err.message))
+      .then(user => {
+        commit('unsetError')
+        user ? router.push('/') : false
+      })
+      .catch(err => commit('setError', err.message))
+    },
+    signUp({commit}, payload){
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+      .then(user => {
+        commit('unsetError')
+        user ? router.push('/') : false
+      })
+      .catch(err => commit('setError', err.message))
     },
     signOut({commit}){
       firebase.auth().signOut()
@@ -51,6 +71,12 @@ export const store = new Vuex.Store({
     },
     unsetCurrentMeetup({commit}){
       commit('unsetCurrentMeetup')
+    },
+    setError({commit}, payload){
+      commit('setError', payload)
+    },
+    unsetError({commit}){
+      commit('unsetError')
     }
   },
   getters: {
@@ -58,13 +84,16 @@ export const store = new Vuex.Store({
       return state.meetups
     },
     currentMeetup (state) {
-      return state.meetups.filter(mu => mu.id === state.currentMeetup)[0]
+      return state.meetups[state.meetups.findIndex(m => m.id === state.currentMeetup)]
     },
     featuredMeetups (state) {
       return state.meetups.slice(0,5)
     },
     currentUser(state){
       return state.currentUser
+    },
+    error(state){
+      return state.error
     },
     debugState(state){
       return state

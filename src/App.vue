@@ -35,6 +35,7 @@
           v-layout(column)
             div <b>currentUser:</b> {{ debugState.currentUser === null ? 'null' : debugState.currentUser }}
             div <b>currentMeetup:</b> {{ debugState.currentMeetup === null ? 'null' : debugState.currentMeetup }}
+            div <b>Error:</b>  {{ debugState.error === null ? 'null' : debugState.error }}
             div <b>Number of Meetups:</b>  {{ debugState.meetups.length }}
             div(class="title mt-4 py-2") Meetups:
             div(v-for="m in debugState.meetups" style="border:1px solid #ccc; background:#fff; padding: 0.5rem; margin-bottom:0.5rem")
