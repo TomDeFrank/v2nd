@@ -7,8 +7,8 @@
           v-card-title(class="primary white--text mb-0 pa-3 headline") Organize Meetup
           v-card-text
             v-container(grid-list-lg)
-              v-text-field(name="title", label="Meetup Title", id="title")
-              v-text-field(name="location", label="Location", id="location")
+              v-text-field(label="Meetup Title", v-model="title")
+              v-text-field(label="Location", v-model="location")
               v-layout(row)
                 v-flex(xs6)
                   v-menu(lazy, :close-on-content-click="false", transition="slide-x-transition", offset-y, full-width, :nudge-left="40", :nudge-top="30", max-width="290px")
@@ -18,11 +18,11 @@
                   v-menu(lazy, :close-on-content-click="false", transition="slide-x-transition", offset-y, full-width, :nudge-left="40", :nudge-top="30", max-width="290px")
                     v-text-field(slot="activator", label="Select a time", v-model="time", prepend-icon="access_time", readonly)
                     v-time-picker(v-model="time", autosave)
-              v-text-field(name="imagurl", label="Image Url", id="imagurl")
-              v-text-field(name="description", label="Description", id="description")
+              v-text-field(label="Image Url", v-model="imageUrl")
+              v-text-field(label="Description", v-model="description")
               v-card-actions(justify-center)
                 v-spacer
-                v-btn(primary, @click.prevent="signIn") Create Meetup
+                v-btn(primary, @click.prevent="createMeetup") Create Meetup
                 v-spacer
 </template>
 
@@ -32,30 +32,38 @@
   export default {
     data(){
       return {
-        date: '',
-        time: '',
+        date: moment().format("YYYY-MM-DD"),
+        time: moment().format('h:mma'),
+        title: '',
+        location: '',
+        imageUrl: '',
+        description: ''
       }
     },
     computed: {
       getMoment(){
-        if(this.date && this.time){
-          var meridiem = this.time.substr(-2)
-          var thetime = this.time.slice(0, -2)
-          var length = thetime.match(/\d*[^:]/)[0].length
-          length < 2 ? thetime = "0" + thetime : false
-          if (meridiem === 'pm'){
-            var h = thetime.match(/\d*[^:]/)
-            var m = thetime.match(/[^:]\d/)
-            thetime = parseInt(h) + 12 + ':' + m
-            return moment(this.date + " " + thetime)
-          } else {
-            return moment(this.date + " " + thetime)
-          }
+        var meridiem = this.time.slice(-2)
+        var thetime = this.time.slice(0, -2)
+        if(thetime.length === 4){ thetime = "0" + thetime}
+        if(meridiem === 'pm'){
+          var newtime = parseInt(thetime.slice(0,2)) + 12 + ":" + thetime.slice(-2)
+          return moment(this.date + " " + newtime).toDate()
+        } else {
+          return moment(this.date + " " + thetime).toDate()
         }
       }
     },
     methods: {
-
+      createMeetup(){
+        var meetup = {
+          datetime: this.getMoment,
+          title: this.title,
+          location: this.location,
+          imageUrl: this.imageUrl,
+          description: this.description
+        }
+        this.$store.dispatch('createMeetup', meetup)
+      }
     }
   }
 </script>

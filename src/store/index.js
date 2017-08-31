@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
     unsetCurrentMeetup(state){ state.currentMeetup = null },
     setError(state, payload){ state.error = payload },
     unsetError(state){ state.error = null },
-    setLoading(state, payload){ state.loading = payload}
+    setLoading(state, payload){ state.loading = payload }
   },
   actions: {
     getMeetupById({commit}, payload){
@@ -42,7 +42,10 @@ export const store = new Vuex.Store({
         commit('setLoading', false)
         user ? router.push('/') : false
       })
-      .catch(err => commit('setError', err.message))
+      .catch(err => {
+          commit('setError', err.message)
+          commit('setLoading', false)
+        })
     },
     signUp({commit}, payload){
       commit('setLoading', true)
@@ -52,7 +55,15 @@ export const store = new Vuex.Store({
         commit('setLoading', false)
         user ? router.push('/') : false
       })
-      .catch(err => commit('setError', err.message))
+      .catch(err => {
+        commit('setError', err.message)
+        commit('setLoading', false)
+      })
+    },
+    createMeetup({commit}, payload){
+      firebase.database().ref('meetups').push(payload)
+      .then()
+      .catch(err => console.log(err))
     },
     signOut({commit}){
       firebase.auth().signOut()

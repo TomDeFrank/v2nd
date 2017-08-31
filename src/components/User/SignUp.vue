@@ -6,24 +6,15 @@
           v-card-title(class="primary white--text mb-0 pa-3 headline") Sign Up
           tbd-form-alert(:error="error")
           v-card-text
-            v-text-field(name="input-1",
-              label="Email",
-              id="email",
-              hide-details,
-              v-model="email")
-            v-text-field(name="input-1",
-              label="Password",
-              id="password", type="password"
-              hide-details,
-              v-model="password")
-            v-text-field(name="input-1",
-              label="Verify Password",
-              id="vpassword", type="password"
-              hide-details,
-              v-model="vpassword")
+            v-text-field(label="Email", type="email", hide-details, v-model="email")
+            v-text-field(label="Password", type="password" hide-details, v-model="password")
+            v-text-field(label="Verify Password", type="password" hide-details, v-model="vpassword")
             v-card-actions(justify-center)
               v-spacer
-              v-btn(primary, @click.prevent="signUp") Sign Up
+              v-btn(primary, @click.prevent="signUp")
+                div(v-if="loading")
+                  v-progress-circular(indeterminate, :width="6" style="margin-top:2px")
+                span(v-else) Sign In
               v-spacer
 </template>
 
@@ -39,6 +30,9 @@
     computed:{
       error(){
         return this.$store.getters.error
+      },
+      loading(){
+        return this.$store.getters.loading
       }
     },
     methods: {
@@ -48,11 +42,7 @@
         } else {
           this.$store.dispatch('setError', 'Username and password do not match')
         }
-      },
-      dismissError(){ this.$store.dispatch('unsetError') }
-    },
-    destroyed(){
-      this.$store.dispatch('unsetError')
+      }
     }
   }
 </script>

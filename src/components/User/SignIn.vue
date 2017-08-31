@@ -10,7 +10,10 @@
             v-text-field(label="Password", type="password" hide-details, v-model="password")
             v-card-actions(justify-center)
               v-spacer
-              v-btn(primary, @click.prevent="signIn") Sign In
+              v-btn(primary, @click.prevent="signIn")
+                div(v-if="loading")
+                  v-progress-circular(indeterminate, :width="6" style="margin-top:2px")
+                span(v-else) Sign In
               v-spacer
 </template>
 
@@ -25,6 +28,9 @@
     computed:{
       error(){
         return this.$store.getters.error
+      },
+      loading(){
+        return this.$store.getters.loading
       }
     },
     methods: {
