@@ -8,16 +8,18 @@
               v-card-media(:src="meetup.imageUrl", height="100%", style="min-height:150px")
             v-flex(md8)
               v-card-title
-                h4(class="ma-0") {{meetup.title}}
+                div(class="headline") {{meetup.title}}
               v-card-text(class="py-0")
-                h5(class="ma-0") {{meetup.location}}
-                h6 {{meetup.date}}
+                div(class="title") {{meetup.location}}
+                div(class="subtitle") {{dt(meetup.datetime)}} ({{ fromNow(meetup.datetime) }})
               v-card-actions
                 v-spacer
                 v-btn(primary @click="moreDetails(meetup.id)") More Details
 </template>
 
 <script>
+  import moment from 'moment'
+
   export default {
     props: ['id'],
     computed: {
@@ -26,8 +28,14 @@
       }
     },
     methods: {
+      fromNow(datetime){
+        return moment(datetime).fromNow()
+      },
       moreDetails(id){
         this.$router.push('/meetup/' + id)
+      },
+      dt(datetime){
+        return moment(datetime).format("YYYY-MM-DD hh:mm A Z")
       }
     }
   }

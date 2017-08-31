@@ -2,7 +2,6 @@
   v-container(fluid)
     v-layout(justify-center)
       v-flex(xs12, sm10, md8, lg6)
-        p {{getMoment}}
         v-card
           v-card-title(class="primary white--text mb-0 pa-3 headline") Organize Meetup
           v-card-text
@@ -19,7 +18,7 @@
                     v-text-field(slot="activator", label="Select a time", v-model="time", prepend-icon="access_time", readonly)
                     v-time-picker(v-model="time", autosave)
               v-text-field(label="Image Url", v-model="imageUrl")
-              v-text-field(label="Description", v-model="description")
+              v-text-field(label="Description", v-model="description" multi-line)
               v-card-actions(justify-center)
                 v-spacer
                 v-btn(primary, @click.prevent="createMeetup") Create Meetup
@@ -47,9 +46,9 @@
         if(thetime.length === 4){ thetime = "0" + thetime}
         if(meridiem === 'pm'){
           var newtime = parseInt(thetime.slice(0,2)) + 12 + ":" + thetime.slice(-2)
-          return moment(this.date + " " + newtime).toDate()
+          return moment(this.date + " " + newtime).toISOString()
         } else {
-          return moment(this.date + " " + thetime).toDate()
+          return moment(this.date + " " + thetime).toISOString()
         }
       }
     },

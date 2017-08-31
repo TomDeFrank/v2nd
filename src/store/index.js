@@ -62,7 +62,7 @@ export const store = new Vuex.Store({
     },
     createMeetup({commit}, payload){
       firebase.database().ref('meetups').push(payload)
-      .then()
+      .then(data => router.push('/meetup/' + data.key))
       .catch(err => console.log(err))
     },
     signOut({commit}){
