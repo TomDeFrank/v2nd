@@ -7,8 +7,8 @@
   export default {
     props: ['error'],
     methods: {
-      dismissError(){ this.$store.dispatch('unsetError') }
+      dismissError(){ this.$store.dispatch('setError', null) }
     },
-    destroyed(){ this.$store.dispatch('unsetError') }
+    destroyed(){ this.$store.dispatch('setError', null) }
   }
 </script>

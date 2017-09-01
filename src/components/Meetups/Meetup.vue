@@ -31,7 +31,7 @@
       },
       dt(){
         return moment(this.currentMeetup.datetime).format("YYYY-MM-DD hh:mm A Z")
-      },
+      }
     },
     created(){
       this.$store.dispatch('getMeetupById', this.id)

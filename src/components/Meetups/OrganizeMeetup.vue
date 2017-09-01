@@ -17,7 +17,11 @@
                   v-menu(lazy, :close-on-content-click="false", transition="slide-x-transition", offset-y, full-width, :nudge-left="40", :nudge-top="30", max-width="290px")
                     v-text-field(slot="activator", label="Select a time", v-model="time", prepend-icon="access_time", readonly)
                     v-time-picker(v-model="time", autosave)
-              v-text-field(label="Image Url", v-model="imageUrl")
+              v-layout(row)
+                v-flex(xs12)
+                  label(for="mimg", class="red", class="select-img-lbl") Select Image
+                    input(type="file", style="display:none", label="Meetup Image", name="mimg", id="mimg", @change="filechange")
+                  span(v-if="filenamelabel" class="filenamelabel") Selected File: {{filenamelabel}}
               v-text-field(label="Description", v-model="description" multi-line)
               v-card-actions(justify-center)
                 v-spacer
@@ -35,8 +39,10 @@
         time: moment().format('h:mma'),
         title: '',
         location: '',
-        imageUrl: '',
-        description: ''
+        description: '',
+        file: null,
+        filenamelabel: '',
+        filesizelabel: ''
       }
     },
     computed: {
@@ -58,15 +64,35 @@
           datetime: this.getMoment,
           title: this.title,
           location: this.location,
-          imageUrl: this.imageUrl,
-          description: this.description
+          description: this.description,
+          image: this.file
         }
         this.$store.dispatch('createMeetup', meetup)
+      },
+      filechange(){
+        var f = document.getElementById('mimg').files[0]
+        this.file = f
+        this.filenamelabel = f.name + " (" + Math.ceil(f.size / 1024) +" KB)"
       }
     }
   }
 </script>
 
-<style>
-
+<style scoped>
+  .select-img-lbl{
+    background-color: #333 !important;
+    border-color: #303030 !important;
+    color:#fff;
+    border-radius:2px;
+    font-size:14px;
+    text-transform: uppercase;
+    height:36px;
+    justify-content: center;
+    vertical-align: middle;
+    font-weight:500;
+    padding:1rem;
+  }
+  .filenamelabel{
+    padding:1rem;
+  }
 </style>
