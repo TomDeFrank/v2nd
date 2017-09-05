@@ -13,24 +13,43 @@
               p {{currentMeetup.description}}
             v-card-actions
               v-spacer
-              v-btn(primary) Register
+              v-btn(v-if="!registered", @click="register", primary) Register
+              v-btn(v-else, @click="unregister", primary) Unregister
 </template>
 
 <script>
   import moment from 'moment'
 
   export default {
-
     props: ['id'],
     computed: {
       currentMeetup(){
         return this.$store.getters.currentMeetup
+      },
+      currentUser(){
+        return this.$store.getters.currentUser
       },
       fromNow(){
         return moment(this.currentMeetup.datetime).fromNow()
       },
       dt(){
         return moment(this.currentMeetup.datetime).format("YYYY-MM-DD hh:mm A Z")
+      },
+      registered(){
+        if (this.currentUser){
+          var regMeetups = this.currentUser.registeredMeetups
+          // if regMeetups is not an array, they are not reg'd for any
+          if(!Array.isArray(regMeetups)){ return false }
+          return regMeetups.some(m => this.id === m)
+        }
+      }
+    },
+    methods: {
+      register(){
+        this.$store.dispatch('registerMeetup', {currentUser: this.currentUser, meetupID: this.currentMeetup.id})
+      },
+      unregister(){
+        this.$store.dispatch('unregisterMeetup', {currentUser: this.currentUser, meetupID: this.currentMeetup.id})
       }
     },
     created(){

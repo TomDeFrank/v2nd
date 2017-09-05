@@ -28,7 +28,7 @@ new Vue({
     firebase.initializeApp(config)
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.$store.dispatch('autoSignIn', {id: user.uid, registeredMeetups: []})
+        this.$store.dispatch('autoSignIn', {id: user.uid})
       } else {
         this.$store.dispatch('signOut')
       }

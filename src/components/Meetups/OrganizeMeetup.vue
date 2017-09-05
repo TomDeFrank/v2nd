@@ -4,6 +4,7 @@
       v-flex(xs12, sm10, md8, lg6)
         v-card
           v-card-title(class="primary white--text mb-0 pa-3 headline") Organize Meetup
+          tbd-form-alert(:error="error")
           v-card-text
             v-container(grid-list-lg)
               v-text-field(label="Meetup Title", v-model="title")
@@ -19,9 +20,12 @@
                     v-time-picker(v-model="time", autosave)
               v-layout(row)
                 v-flex(xs12)
-                  label(for="mimg", class="red", class="select-img-lbl") Select Image
-                    input(type="file", style="display:none", label="Meetup Image", name="mimg", id="mimg", @change="filechange")
-                  span(v-if="filenamelabel" class="filenamelabel") Selected File: {{filenamelabel}}
+                  v-divider
+                  div(class="py-4")
+                    label(for="mimg", style="cursor:pointer" class="select-img-lbl") Select Image
+                      input(type="file", style="display:none", label="Meetup Image", name="mimg", id="mimg", @change="filechange")
+                    div(v-if="filenamelabel" class="filenamelabel") Selected File: {{filenamelabel}}
+                  v-divider
               v-text-field(label="Description", v-model="description" multi-line)
               v-card-actions(justify-center)
                 v-spacer
@@ -56,7 +60,10 @@
         } else {
           return moment(this.date + " " + thetime).toISOString()
         }
-      }
+      },
+      error(){
+        return this.$store.getters.error
+      },
     },
     methods: {
       createMeetup(){
@@ -67,7 +74,11 @@
           description: this.description,
           image: this.file
         }
-        this.$store.dispatch('createMeetup', meetup)
+        if(!meetup.image){
+          this.$store.dispatch('setError', "You must supply an image.")
+        } else {
+          this.$store.dispatch('createMeetup', meetup)
+        }
       },
       filechange(){
         var f = document.getElementById('mimg').files[0]
@@ -80,19 +91,19 @@
 
 <style scoped>
   .select-img-lbl{
-    background-color: #333 !important;
-    border-color: #303030 !important;
+    background-color: #555 !important;
+    border-color: #525252 !important;
     color:#fff;
     border-radius:2px;
     font-size:14px;
     text-transform: uppercase;
-    height:36px;
     justify-content: center;
     vertical-align: middle;
     font-weight:500;
-    padding:1rem;
+    padding:0.5rem 1rem;
+    display:inline-block !important;
   }
   .filenamelabel{
-    padding:1rem;
+    padding:1rem 0 0 0;
   }
 </style>

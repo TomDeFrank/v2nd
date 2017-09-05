@@ -3,10 +3,10 @@
     v-layout(justify-center)
       v-flex(xs12, sm10, md8)
         v-card(v-for="(meetup,i) in meetups", :key="i" class="mb-4")
-          v-layout(row-md column)
-            v-flex(md4)
+          v-layout(wrap)
+            v-flex(xs12, sm5, md4)
               v-card-media(:src="meetup.imageUrl", height="100%", style="min-height:150px")
-            v-flex(md8)
+            v-flex(xs12, sm7, md8)
               v-card-title
                 div(class="headline") {{meetup.title}}
               v-card-text(class="py-0")
