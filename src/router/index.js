@@ -26,7 +26,8 @@ export default new Router({
     {
       name: 'Profile',
       path: '/profile',
-      component: Profile
+      component: Profile,
+      props: true
     },
     {
       name: 'Meetups',

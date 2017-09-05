@@ -6,6 +6,8 @@
           v-card-title(class="primary white--text mb-0 pa-3 headline") Sign Up
           tbd-form-alert(:error="error")
           v-card-text
+            v-text-field(label="First Name", hide-details, v-model="firstname")
+            v-text-field(label="Last Name", hide-details, v-model="lastname")
             v-text-field(label="Email", type="email", hide-details, v-model="email")
             v-text-field(label="Password", type="password" hide-details, v-model="password")
             v-text-field(label="Verify Password", type="password" hide-details, v-model="vpassword")
@@ -24,7 +26,9 @@
       return {
         email: '',
         password: '',
-        vpassword: ''
+        vpassword: '',
+        firstname: '',
+        lastname: ''
       }
     },
     computed:{
@@ -38,7 +42,7 @@
     methods: {
       signUp(){
         if(this.password === this.vpassword){
-          this.$store.dispatch('signUp', { email:this.email, password: this.password })
+          this.$store.dispatch('signUp', { email:this.email, password: this.password, firstname: this.firstname, lastname: this.lastname })
         } else {
           this.$store.dispatch('setError', 'Username and password do not match')
         }

@@ -31,7 +31,9 @@ export default {
         id: user.uid,
         email: user.email,
         registeredMeetups: '',
-        ownedMeetups: ''
+        ownedMeetups: '',
+        firstname: payload.firstname,
+        lastname: payload.lastname
       }
       firebase.database().ref('/users/' + user.uid).set(u)
       commit('setError', null)
@@ -70,6 +72,7 @@ export default {
   },
   signOut({commit}){
     firebase.auth().signOut()
+    router.push("/")
     commit('unsetUser')
   },
   autoSignIn({commit}, payload){
@@ -96,6 +99,7 @@ export default {
     var arr = payload.currentUser.registeredMeetups
     var index = arr.findIndex(m => m === meetupID)
     arr.splice(index, 1)
+    arr = arr.length < 1 ? '' : arr
     firebase.database().ref('/users/' + userID + '/registeredMeetups').set(arr)
     commit('setRegisteredMeetups', arr)
   }

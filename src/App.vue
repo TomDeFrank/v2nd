@@ -40,13 +40,13 @@
         return this.$store.getters.currentUser
       },
       currentMenu(){
-        var signedInMenu = [
+        const signedInMenu = [
           {title: "Home", icon: "home", path: "/"},
           {title: "Meetups", icon: "people", path: "/meetups"},
           {title: "Organize Meetup", icon: "add_location", path: "/organize-meetup"},
           {title: "Profile", icon: "person", path: "/profile/" }
         ]
-        var signedOutMenu = [
+        const signedOutMenu = [
           {title: "Home", icon: "home", path: "/"},
           {title: "Meetups", icon: "people", path: "/meetups"},
           {title: "Sign Up", icon: "person", path: "/signup"},
