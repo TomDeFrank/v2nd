@@ -11,9 +11,8 @@
             div(v-if="!currentUser.registeredMeetups") You are not registered for any meetups.
             div(v-else class="title") Registered Meetups:
             v-list(v-if="currentUser.registeredMeetups" three-line)
-              v-list-tile(v-for="(meetup, index) in getMeetups(currentUser.registeredMeetups)" :key="meetup.id" )
+              v-list-tile(v-for="(meetup, index) in getMeetups(currentUser.registeredMeetups)" :key="meetup.id" :to="'/meetup/' + meetup.id")
                 v-list-tile-content
-                  router-link(:to="'/meetup/' + meetup.id", style="text-decoration:none;")
                     v-list-tile-title {{meetup.title}}
                     v-list-tile-sub-title {{ meetup.location }}
                     v-list-tile-sub-title {{ dt(meetup.datetime) }}
