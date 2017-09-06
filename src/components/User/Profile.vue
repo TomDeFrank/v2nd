@@ -2,7 +2,7 @@
   v-container(fluid)
     v-layout(justify-center)
       v-flex(xs12, sm10, md8)
-        v-card
+        v-card(v-if="currentUser")
           v-card-title(class="primary white--text mb-0 pa-3 headline") Your Profile
           v-card-title
             span(class="headline") {{`${currentUser.firstname} ${currentUser.lastname}`}}
@@ -18,10 +18,11 @@
                     v-list-tile-sub-title {{ meetup.location }}
                     v-list-tile-sub-title {{ dt(meetup.datetime) }}
                 v-list-tile-action
-                  v-dialog(v-model="dialog", lazy, absolute)
-                    v-icon(slot="activator" class="red--text" @click="selectedUnregMeetupTitle = meetup.title; selectedUnregMeetupID = meetup.id") cancel
+                  v-dialog(v-model="dialog")
+                    v-icon(slot="activator" style="cursor:pointer" class="red--text" @click="selectedUnregMeetupTitle = meetup.title; selectedUnregMeetupID = meetup.id") cancel
                     v-card
-                      div(class="headline red white--text px-3 py-2", style="display:block") Unregister?
+                      v-card-title(class="headline red white--text px-3 py-2", style="display:block")
+                        | Unregister?
                       v-card-text
                         | This will unregister you from {{selectedUnregMeetupTitle}}.
                       v-card-actions
@@ -46,7 +47,7 @@
         return this.$store.getters.meetups
       },
       currentUser(){
-        return this.$parent.currentUser
+        return this.$store.getters.currentUser
       }
     },
     methods: {
