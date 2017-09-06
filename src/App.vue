@@ -1,6 +1,6 @@
 <template lang="pug">
   v-app(toolbar, footer)
-    v-navigation-drawer(temporary, v-model='drawer', light, overflow, absolute)
+    v-navigation-drawer(temporary, v-model='drawer', light, overflow)
       v-list(dense)
         v-list-tile(v-for='(item,i) in currentMenu', :key='item.title', :to="item.path")
           v-list-tile-action
