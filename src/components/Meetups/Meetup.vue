@@ -13,8 +13,10 @@
               p {{currentMeetup.description}}
             v-card-actions
               v-spacer
-              v-btn(v-if="!registered", @click="register", primary) Register
-              v-btn(v-else, @click="unregister", primary) Unregister
+              span(v-if="!registered")
+                v-btn(@click="register", primary) Register
+              span(v-else class="green--text text--darken-2") You are registered for this meetup
+                v-btn(primary) Unregister
 </template>
 
 <script>

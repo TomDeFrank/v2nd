@@ -20,7 +20,7 @@
       v-toolbar-items(class="hidden-sm-and-down")
         v-btn(v-for="item in currentMenu", key='item.title', flat, :to="item.path") {{item.title}}
         v-btn(v-if="currentUser", @click="signOut", flat) Sign Out
-    main
+    main(class="mt-4")
       transition(name="fade", mode="out-in")
         router-view
     v-footer(class="grey darken-4", bottom)
