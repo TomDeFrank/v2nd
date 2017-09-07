@@ -1,7 +1,7 @@
 <template lang="pug">
   v-container(fluid)
       v-layout(justify-center)
-        v-flex(xs12, sm10, md9, lg6)
+        v-flex(xs12, md10, lg8)
           v-card(v-if="currentMeetup" class="elevation-5")
             v-card-title(class="headline") {{currentMeetup.title}}
             v-card-media(:src="currentMeetup.imageUrl", height="300px", style="border-bottom:2px solid #212121; border-top:2px solid #212121")

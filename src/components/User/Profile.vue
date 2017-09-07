@@ -1,12 +1,12 @@
 <template lang="pug">
   v-container(fluid)
     v-layout(justify-center)
-      v-flex(xs12, sm10, md8)
+      v-flex(xs12, sm10)
         v-card(v-if="currentUser")
           v-card-title(class="primary white--text mb-0 pa-3 headline") Your Profile
           v-card-text
             v-layout(row, wrap)
-              v-flex(xs4)
+              v-flex(xs12 md4)
                 v-list
                   v-list-tile
                     v-icon(class="mr-2") person
@@ -14,7 +14,7 @@
                   v-list-tile
                     v-icon(class="mr-2") mail
                     span {{`(${currentUser.email})`}}
-              v-flex(xs8)
+              v-flex(xs12 md8)
                 div(v-if="!currentUser.registeredMeetups") You are not registered for any meetups.
                 v-card(v-if="currentUser.registeredMeetups")
                   v-card-title(class="title primary white--text pa-2") Registered Meetups:
@@ -38,7 +38,7 @@
                               v-spacer
                               v-btn(class="red--text", flat="flat" @click.native="dialog = false") Cancel
                               v-btn(class="red--text", flat="flat" @click.native="unregisterMeetup(selectedUnregMeetupID)") Do It
-  </template>
+</template>
 
 <script>
   import moment from 'moment'
