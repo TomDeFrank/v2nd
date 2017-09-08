@@ -87,6 +87,7 @@ export default {
     var u
     firebase.database().ref('users/' + payload.id).once('value')
     .then( u => commit('setCurrentUser', u.val()))
+    .catch(err => console.log(err.message))
   },
   unsetCurrentMeetup({commit}){ commit('unsetCurrentMeetup') },
   setError({commit}, payload){ commit('setError', payload) },
@@ -95,8 +96,7 @@ export default {
     var userID = payload.currentUser.id
     var meetupID = payload.meetupID
     var regMeetups = payload.currentUser.registeredMeetups
-    var arr = payload.currentUser.registeredMeetups
-    if (arr == '') { arr = [] }
+    var arr = payload.currentUser.registeredMeetups === '' ? [] : payload.currentUser.registeredMeetups
     arr.push(meetupID)
     firebase.database().ref('/users/' + userID + '/registeredMeetups').set(arr)
     commit('setRegisteredMeetups', arr)
