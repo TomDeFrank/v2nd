@@ -64,6 +64,9 @@
       error(){
         return this.$store.getters.error
       },
+      currentUser(){
+        return this.$store.getters.currentUser
+      }
     },
     methods: {
       createMeetup(){
@@ -77,7 +80,7 @@
         if(!meetup.image){
           this.$store.dispatch('setError', "You must supply an image.")
         } else {
-          this.$store.dispatch('createMeetup', meetup)
+          this.$store.dispatch('createMeetup', {meetup: meetup, userId: this.currentUser.id, ownedMeetups: this.currentUser.ownedMeetups})
         }
       },
       filechange(){

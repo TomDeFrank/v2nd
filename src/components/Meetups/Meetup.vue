@@ -4,7 +4,7 @@
         v-flex(xs12, md10, lg8)
           v-card(v-if="currentMeetup" class="elevation-5")
             v-card-title(class="headline") {{currentMeetup.title}}
-            v-card-media(:src="currentMeetup.imageUrl", height="300px", style="border-bottom:2px solid #212121; border-top:2px solid #212121")
+            v-card-media(v-if="currentMeetup.imageUrl", :src="currentMeetup.imageUrl", height="300px", style="border-bottom:2px solid #212121; border-top:2px solid #212121;")
             v-card-text
               div(class="title") {{currentMeetup.location}}
               div(class="subtitle") {{dt}} ({{ fromNow }})

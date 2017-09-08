@@ -47,24 +47,30 @@ export default {
   },
   createMeetup({commit}, payload){
     var meetup = {
-      datetime: payload.datetime,
-      title: payload.title,
-      location: payload.location,
-      description: payload.description,
-      imagename: payload.image.name
+      datetime: payload.meetup.datetime,
+      title: payload.meetup.title,
+      location: payload.meetup.location,
+      description: payload.meetup.description,
+      imagename: payload.meetup.image.name
     }
+
+    var ownedMeetups = payload.ownedMeetups === '' ? [] : payload.ownedMeetups
+    var uid = payload.userId
     var dlu = ''
     var key = firebase.database().ref('meetups').push().getKey()
-    var pushImage = firebase.storage().ref('images/' + key + "/" + payload.image.name).put(payload.image)
-    .then(snapshot => dlu = snapshot.downloadURL )
-    var downloadUrl = firebase.storage().ref('/images/' + key + "/" + payload.image.name)
-    var pushMeetup = firebase.database().ref('meetups/' + key).update(meetup)
-    // push to current user in promise.then or callback function
-    .then()
 
-    Promise.all([pushImage, downloadUrl, pushMeetup])
+    ownedMeetups.push(key)
+
+    var pushImage = firebase.storage().ref('images/' + key + "/" + meetup.imagename).put(payload.meetup.image)
+    .then(snapshot => dlu = snapshot.downloadURL )
+    var downloadUrl = firebase.storage().ref('/images/' + key + "/" + meetup.imagename)
+    var pushMeetup = firebase.database().ref('meetups/' + key).update(meetup)
+    var pushOwnedMeetup = firebase.database().ref('users/' + uid + '/ownedMeetups').set(ownedMeetups)
+
+    Promise.all([pushImage, downloadUrl, pushMeetup, pushOwnedMeetup])
     .then( arr => {
       firebase.database().ref('/meetups/' + key + "/imageUrl").set(dlu)
+      commit('setOwnedMeetups', ownedMeetups)
       commit('setImageUrl', {id: key, imageUrl: dlu})
       router.push('/meetup/' + key)
     })

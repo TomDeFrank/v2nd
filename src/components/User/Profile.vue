@@ -15,11 +15,11 @@
                     v-icon(class="mr-2") mail
                     span {{`(${currentUser.email})`}}
               v-flex(xs12 md8 lg8 mt-3)
-                div(v-if="!currentUser.registeredMeetups") You are not registered for any meetups.
-                v-card(v-if="currentUser.registeredMeetups" flat)
+                v-card(flat)
                   v-card-title(class="title py-2") Your Registered Meetups:
                   v-card-text(class="py-2")
-                    v-layout(v-for="(meetup, index) in getMeetups(currentUser.registeredMeetups)" :key="meetup.id" pa-2 mt-1 justify-center align-center class="grey lighten-4 elevation-1")
+                    div(v-if="!currentUser.registeredMeetups") You are not registered for any meetups.
+                    v-layout(v-else v-for="(meetup, index) in getMeetups(currentUser.registeredMeetups)" :key="meetup.id" pa-2 mt-1 justify-center align-center class="grey lighten-4 elevation-1")
                       div
                         router-link(:to="'/meetup/' + meetup.id" style="text-decoration:none;")
                           div {{meetup.title}}

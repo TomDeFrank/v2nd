@@ -27,7 +27,8 @@ export const store = new Vuex.Store({
     unsetCurrentMeetup(state){ state.currentMeetup = null },
     setError(state, payload){ state.error = payload },
     setLoading(state, payload){ state.loading = payload },
-    setRegisteredMeetups(state, payload){ state.currentUser.registeredMeetups = payload  }
+    setRegisteredMeetups(state, payload){ state.currentUser.registeredMeetups = payload  },
+    setOwnedMeetups(state, payload){ state.currentUser.ownedMeetups = payload }
   },
   actions: Actions,
   getters: Getters
