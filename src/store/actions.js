@@ -59,6 +59,8 @@ export default {
     .then(snapshot => dlu = snapshot.downloadURL )
     var downloadUrl = firebase.storage().ref('/images/' + key + "/" + payload.image.name)
     var pushMeetup = firebase.database().ref('meetups/' + key).update(meetup)
+    // push to current user in promise.then or callback function
+    .then()
 
     Promise.all([pushImage, downloadUrl, pushMeetup])
     .then( arr => {
