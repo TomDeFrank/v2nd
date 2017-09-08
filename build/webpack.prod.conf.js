@@ -14,7 +14,7 @@ var env = config.build.env
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
-      //sourceMap: config.build.productionSourceMap,
+      sourceMap: config.build.productionSourceMap,
       extract: true
     })
   },
@@ -33,7 +33,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       compress: {
         warnings: false
       },
-      //sourceMap: true
+      sourceMap: true
     }),
     // extract css into its own file
     new ExtractTextPlugin({
